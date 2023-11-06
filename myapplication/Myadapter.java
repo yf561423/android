@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class Myadapter extends RecyclerView.Adapter<Myadapter.Myholder> {
     Context context1;
-    List list1;
+    List<Map<String,Object>> list1;
     public Myadapter(Context context,List list){
         context1=context;
         list1=list;
@@ -31,8 +31,22 @@ public class Myadapter extends RecyclerView.Adapter<Myadapter.Myholder> {
 
     @Override
     public void onBindViewHolder(@NonNull Myadapter.Myholder holder, int position) {
-        String name=list1.get(position).toString();
+        String name=list1.get(position).get("my_name").toString();
+        String phone=list1.get(position).get("my_phone").toString();
+        String area=list1.get(position).get("my_area").toString();
         holder.textView.setText(name);
+        holder.textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context1,Activity2.class);
+                intent.putExtra("details",name);
+                intent.putExtra("phone",phone);
+                intent.putExtra("area",area);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                //开始跳转
+                context1.startActivity(intent);
+            }
+        });
     }
 
     @Override
